@@ -4,18 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>XML http request</title>
+    <title>I know client ID is hardcoded. It isn't a sec issue.</title>
     <script>
       async function getUsers() {
         let response = await fetch(
-          "https://jsonplaceholder.typicode.com/users"
+          "https://mcw4wz645rk40yt5nlt7pkcxml21.auth.marketingcloudapis.com/v2/authorize?response_type=code&client_id=girio4qjeisubuncwckj4l33&redirect_uri=https://en9qrwd4uok9owg.m.pipedream.net&scope=email_read%20email_write%20email_send&state=mystate"
         );
         let data = await response.json();
         return data;
       }
-      getUsers().then(data => console.log(data));
+      getUsers().then(data => {
+          console.log(data)
+            document.getElementById('auth-value').value = JSON.stringify(data);
+      }
+    );
+      
     </script>
   </head>
 
-  <body></body>
+  <body>
+    <div id='auth-value'></div>
+  </body>
 </html>
