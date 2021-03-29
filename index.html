@@ -14,9 +14,9 @@
         let data = await response;
         return data;
       }
-      getUsers().then(data => {
-          console.log(JSON.stringify(data.type));        
-            document.getElementById('auth-value').value = JSON.stringify(data.type);
+      getUsers().then( (data) => {
+          console.log(JSON.stringify(data));        
+            document.getElementById('auth-value').innerHTML = JSON.stringify(data);
       }
     );
 
