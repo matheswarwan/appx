@@ -8,7 +8,8 @@
     <script>
       async function getUsers() {
         let response = await fetch(
-          "https://mcw4wz645rk40yt5nlt7pkcxml21.auth.marketingcloudapis.com/v2/authorize?response_type=code&client_id=girio4qjeisubuncwckj4l33&redirect_uri=https://en9qrwd4uok9owg.m.pipedream.net&scope=email_read%20email_write%20email_send&state=mystate"
+          `https://mcw4wz645rk40yt5nlt7pkcxml21.auth.marketingcloudapis.com/v2/authorize?response_type=code&client_id=girio4qjeisubuncwckj4l33&redirect_uri=https://appxsfmc.herokuapp.com&scope=email_read%20email_write%20email_send&state=mystate`
+           ,{mode: 'no-cors'}
         );
         let data = await response.json();
         return data;
@@ -18,6 +19,8 @@
             document.getElementById('auth-value').value = JSON.stringify(data);
       }
     );
+
+    // this returns -- https://appxsfmc.herokuapp.com/?state=mystate&code=eyJhbGciOiJIUzI1NiIsImtpZCI6IjQiLCJ2ZXIiOiIxIiwidHlwIjoiSldUIn0.eyJhdXRoX2NvZGUiOiJkUExEam9sN29Kdk1sRTJ2N0drSzVXTXQiLCJjbGllbnRfaWQiOiJnaXJpbzRxamVpc3VidW5jd2NrajRsMzMiLCJlaWQiOjEwOTY0MTc0LCJzdGFja19rZXkiOiJTMSIsInBsYXRmb3JtX3ZlcnNpb24iOjIsImNsaWVudF90eXBlIjoiUHVibGljIn0.WFpnMRovIBl2OlqtUxEb33AUS-tFNSBeAKgKlt0dUhM.KLlYqUd7LgFM4qJRMAbsPfSkbPK9gXQ2SqvZ5muGCBrpAlbCuI1dWVg0G0FLjKZeG3ZTklO8dKZEIV6coUeVxtqHZy6wKoVnRxOaiWYy670Fe8v1MnXGLI2vfZYuwLcQnlRnwyR3rvHx7EtAIetAEjahlyZ8oJNkwDqhAKzuOIZbiuoSyieZjczZA0Yqhguhb2tf
       
     </script>
   </head>
