@@ -16,26 +16,28 @@
           );
           let data = await response;
           return data;
-        }
+        } //Async getAuthCodeReference ends
 
         async function fetchUserInfo() {
 
             let userInfo = await fetch(
                   `https://mcw4wz645rk40yt5nlt7pkcxml21.auth.marketingcloudapis.com/v2/userinfo`
-                  ,{mode: 'no-cors'}
-                  ,header : {
-                      'Content-Type': 'application/json',
-                      'Authorization': 'Bearer '+authToken;
-                  }
-                  ,method: 'GET'
+                  ,{
+                        'mode': 'no-cors',
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + authToken
+                        },
+                        'method': 'GET'
+                    }
               );
 
             let userInfoResponse = await userInfo;
 
             return userInfoResponse;
-           
 
-        }
+
+        } //Async fetchUserInfo ends
 
         getAuthCodeReference().then( (data) => {
               console.log(JSON.stringify(data));
@@ -53,13 +55,12 @@
                userInfoResponse.then( (uinfo)=> {
                   console.log("User Info" + JSON.stringify(uinfo));
               });
-            }
-      );
+        });//Async getAuthCodeReference ends
 
 
-      
 
-              
+
+
 
       //https://appxsfmc.herokuapp.com/?state=mystate&code=eyJhbGciOiJIUzI1NiIsImtpZCI6IjQiLCJ2ZXIiOiIxIiwidHlwIjoiSldUIn0.eyJhdXRoX2NvZGUiOiJPbGNoaGEzZFFLREx4STNxbktTVFA2b1UiLCJjbGllbnRfaWQiOiJnaXJpbzRxamVpc3VidW5jd2NrajRsMzMiLCJlaWQiOjEwOTY0MTc0LCJzdGFja19rZXkiOiJTMSIsInBsYXRmb3JtX3ZlcnNpb24iOjIsImNsaWVudF90eXBlIjoiUHVibGljIn0.dwXzRTl35SnUg4MHfc_D5hYrvDw89zW42KiKZWgbkeU._k5Ra4aim-imAOxnwMap1Vicyo9Lo1oLRo46mVKqo4F3qw2mhX-NwmG-0zTT5diJ8G4JppRY2FrzRiT4aAKW-11r7xS4A0_ZDggtjNAmN2C1sKjkoPztH9Oysj9alVlfKNfWaPbE0e0eMJeLK0uKzQ_EQ7hZslthftBABVAQf3mvzmT4T85p8d67xW9kYfSIJ-Uv
 
