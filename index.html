@@ -6,53 +6,63 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>v0.1=I know client ID is hardcoded. It isn't a sec issue.</title>
     <script>
-        //https://developer.salesforce.com/docs/atlas.en-us.mc-app-development.meta/mc-app-development/authorization-code.htm
+          //https://developer.salesforce.com/docs/atlas.en-us.mc-app-development.meta/mc-app-development/authorization-code.htm
 
-        let authToken;
-      async function getAuthCodeReference() {
-        let response = await fetch(
-          `https://mcw4wz645rk40yt5nlt7pkcxml21.auth.marketingcloudapis.com/v2/authorize?response_type=code&client_id=girio4qjeisubuncwckj4l33&redirect_uri=https://appxsfmc.herokuapp.com&scope=email_read%20email_write%20email_send&state=mystate`
-           ,{mode: 'no-cors'}
-        );
-        let data = await response;
-        return data;
-      }
-      getAuthCodeReference().then( (data) => {
-            console.log(JSON.stringify(data));        
-            document.getElementById('auth-value').innerHTML = JSON.stringify(data);
+          let authToken;
+        async function getAuthCodeReference() {
+          let response = await fetch(
+            `https://mcw4wz645rk40yt5nlt7pkcxml21.auth.marketingcloudapis.com/v2/authorize?response_type=code&client_id=girio4qjeisubuncwckj4l33&redirect_uri=https://appxsfmc.herokuapp.com&scope=email_read%20email_write%20email_send&state=mystate`
+             ,{mode: 'no-cors'}
+          );
+          let data = await response;
+          return data;
+        }
 
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            
-            authToken = urlParams.get('code');
-            console.log(authToken);
-            document.getElementById('auth-value').innerHTML += authToken;
+        async function fetchUserInfo() {
 
             let userInfo = await fetch(
-                `https://mcw4wz645rk40yt5nlt7pkcxml21.auth.marketingcloudapis.com/v2/userinfo`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+authToken;
-                    }
-            );
+                  `https://mcw4wz645rk40yt5nlt7pkcxml21.auth.marketingcloudapis.com/v2/userinfo`
+              );
 
-            userInfo.then( (uinfo)=> {
-                console.log("User Info" + JSON.stringify(uinfo));
+            let userInfoResponse = await userInfo;
+
+            return userInfoResponse;
+           
+
+        }
+
+        getAuthCodeReference().then( (data) => {
+              console.log(JSON.stringify(data));
+              document.getElementById('auth-value').innerHTML = JSON.stringify(data);
+
+              const queryString = window.location.search;
+              const urlParams = new URLSearchParams(queryString);
+
+              authToken = urlParams.get('code');
+              console.log(authToken);
+              document.getElementById('auth-value').innerHTML += authToken;
+
+              userInfoResponse = fetchUserInfo();
+
+               userInfoResponse.then( (uinfo)=> {
+                  console.log("User Info" + JSON.stringify(uinfo));
+              });
             }
+      );
 
-            );
-      }
-    );
 
-    //https://appxsfmc.herokuapp.com/?state=mystate&code=eyJhbGciOiJIUzI1NiIsImtpZCI6IjQiLCJ2ZXIiOiIxIiwidHlwIjoiSldUIn0.eyJhdXRoX2NvZGUiOiJPbGNoaGEzZFFLREx4STNxbktTVFA2b1UiLCJjbGllbnRfaWQiOiJnaXJpbzRxamVpc3VidW5jd2NrajRsMzMiLCJlaWQiOjEwOTY0MTc0LCJzdGFja19rZXkiOiJTMSIsInBsYXRmb3JtX3ZlcnNpb24iOjIsImNsaWVudF90eXBlIjoiUHVibGljIn0.dwXzRTl35SnUg4MHfc_D5hYrvDw89zW42KiKZWgbkeU._k5Ra4aim-imAOxnwMap1Vicyo9Lo1oLRo46mVKqo4F3qw2mhX-NwmG-0zTT5diJ8G4JppRY2FrzRiT4aAKW-11r7xS4A0_ZDggtjNAmN2C1sKjkoPztH9Oysj9alVlfKNfWaPbE0e0eMJeLK0uKzQ_EQ7hZslthftBABVAQf3mvzmT4T85p8d67xW9kYfSIJ-Uv
-    
-    
-    // this returns -- https://appxsfmc.herokuapp.com/?state=mystate&code=eyJhbGciOiJIUzI1NiIsImtpZCI6IjQiLCJ2ZXIiOiIxIiwidHlwIjoiSldUIn0.eyJhdXRoX2NvZGUiOiJkUExEam9sN29Kdk1sRTJ2N0drSzVXTXQiLCJjbGllbnRfaWQiOiJnaXJpbzRxamVpc3VidW5jd2NrajRsMzMiLCJlaWQiOjEwOTY0MTc0LCJzdGFja19rZXkiOiJTMSIsInBsYXRmb3JtX3ZlcnNpb24iOjIsImNsaWVudF90eXBlIjoiUHVibGljIn0.WFpnMRovIBl2OlqtUxEb33AUS-tFNSBeAKgKlt0dUhM.KLlYqUd7LgFM4qJRMAbsPfSkbPK9gXQ2SqvZ5muGCBrpAlbCuI1dWVg0G0FLjKZeG3ZTklO8dKZEIV6coUeVxtqHZy6wKoVnRxOaiWYy670Fe8v1MnXGLI2vfZYuwLcQnlRnwyR3rvHx7EtAIetAEjahlyZ8oJNkwDqhAKzuOIZbiuoSyieZjczZA0Yqhguhb2tf
       
+
+              
+
+      //https://appxsfmc.herokuapp.com/?state=mystate&code=eyJhbGciOiJIUzI1NiIsImtpZCI6IjQiLCJ2ZXIiOiIxIiwidHlwIjoiSldUIn0.eyJhdXRoX2NvZGUiOiJPbGNoaGEzZFFLREx4STNxbktTVFA2b1UiLCJjbGllbnRfaWQiOiJnaXJpbzRxamVpc3VidW5jd2NrajRsMzMiLCJlaWQiOjEwOTY0MTc0LCJzdGFja19rZXkiOiJTMSIsInBsYXRmb3JtX3ZlcnNpb24iOjIsImNsaWVudF90eXBlIjoiUHVibGljIn0.dwXzRTl35SnUg4MHfc_D5hYrvDw89zW42KiKZWgbkeU._k5Ra4aim-imAOxnwMap1Vicyo9Lo1oLRo46mVKqo4F3qw2mhX-NwmG-0zTT5diJ8G4JppRY2FrzRiT4aAKW-11r7xS4A0_ZDggtjNAmN2C1sKjkoPztH9Oysj9alVlfKNfWaPbE0e0eMJeLK0uKzQ_EQ7hZslthftBABVAQf3mvzmT4T85p8d67xW9kYfSIJ-Uv
+
+
+      // this returns -- https://appxsfmc.herokuapp.com/?state=mystate&code=eyJhbGciOiJIUzI1NiIsImtpZCI6IjQiLCJ2ZXIiOiIxIiwidHlwIjoiSldUIn0.eyJhdXRoX2NvZGUiOiJkUExEam9sN29Kdk1sRTJ2N0drSzVXTXQiLCJjbGllbnRfaWQiOiJnaXJpbzRxamVpc3VidW5jd2NrajRsMzMiLCJlaWQiOjEwOTY0MTc0LCJzdGFja19rZXkiOiJTMSIsInBsYXRmb3JtX3ZlcnNpb24iOjIsImNsaWVudF90eXBlIjoiUHVibGljIn0.WFpnMRovIBl2OlqtUxEb33AUS-tFNSBeAKgKlt0dUhM.KLlYqUd7LgFM4qJRMAbsPfSkbPK9gXQ2SqvZ5muGCBrpAlbCuI1dWVg0G0FLjKZeG3ZTklO8dKZEIV6coUeVxtqHZy6wKoVnRxOaiWYy670Fe8v1MnXGLI2vfZYuwLcQnlRnwyR3rvHx7EtAIetAEjahlyZ8oJNkwDqhAKzuOIZbiuoSyieZjczZA0Yqhguhb2tf
     </script>
   </head>
 
   <body>
-    <div id='auth-value'></div>
+    <div id="auth-value"></div>
   </body>
 </html>
